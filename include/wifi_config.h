@@ -1,8 +1,8 @@
 #ifndef WIFI_CONFIG_H
 #define WIFI_CONFIG_H
 
-#define WIFI_SSID "XXX"
-#define WIFI_PASS "XXX"
-#define IOT_CONNECTION_STRING = "HostName=smart-blinds-hub.azure-devices.net;DeviceId=test-device";
+#define WIFI_SSID "REPLACE_WITH_WIFI_SSID"
+#define WIFI_PASS "REPLACE_WITH_WIFI_PASSWORD"
+#define IOT_CONNECTION_STRING = "REPLACE_WITH_IOT_HUB_CONNECTION_STRING";
 
 #endif
