@@ -2,9 +2,10 @@
 #include <ESP8266WiFi.h>
 #include <Wire.h>
 #include <AzureIoTHub.h>
-#include "AzureIoTProtocol_MQTT.h"
-#include "iothubtransportmqtt.h"
-#include "Stepper.h"
+#include <AzureIoTProtocol_MQTT.h>
+#include <iothubtransportmqtt.h>
+#include <Stepper.h>
+#include <wifi_config.h>
 
 
 #define sample_init esp8266_sample_init
@@ -12,7 +13,6 @@
 void esp8266_sample_init(const char* ssid, const char* password);
 
 const int stepsPerRevolution = 200;
-const char* connection_string = "HostName=smart-blinds-hub.azure-devices.net;DeviceId=test-device;SharedAccessKey=zWN/F9JK6oZAeN1894BpV1EXZQnDBavJRjF7hOmzLHk=;";
 
 IOTHUB_DEVICE_CLIENT_LL_HANDLE device_ll_handle;
 int receiveContext = 0;
@@ -96,10 +96,11 @@ static void connection_status_callback(IOTHUB_CLIENT_CONNECTION_STATUS result, I
 void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     sample_init(WIFI_SSID, WIFI_PASS);
+    myStepper.setSpeed(60);
 
 
     IoTHub_Init();
-    device_ll_handle = IoTHubDeviceClient_LL_CreateFromConnectionString(connection_string, MQTT_Protocol);
+    device_ll_handle = IoTHubDeviceClient_LL_CreateFromConnectionString(IOT_CONNECTION_STRING, MQTT_Protocol);
 
     Serial.println("Creating MQTT handle");
     if (device_ll_handle == NULL)
@@ -135,14 +136,7 @@ void setup() {
 }
 
 void loop() {
-    IoTHubDeviceClient_LL_DoWork(device_ll_handle);
-    delay(1000);
-    Serial.println(mode);
-    digitalWrite(LED_BUILTIN, mode);
-
-    delay(10);
-    myStepper.setSpeed(60);
-    delay(10);
-    myStepper.step(stepsPerRevolution);
-    delay(2000);
+    //IoTHubDeviceClient_LL_DoWork(device_ll_handle);
+    myStepper.step(1);
+    delay(100);
 }
